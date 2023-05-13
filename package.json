@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/shimpfierie/EmployeeTracker#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "dotenv": "^8.2.0",
     "inquirer": "^8.2.4",
-    "mysql2": "^3.3.0"
+    "mysql2": "^2.2.5"
   }
 }
