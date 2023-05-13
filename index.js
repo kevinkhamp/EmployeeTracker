@@ -31,25 +31,46 @@ inquirer.prompt([
 .then(({main}) => {
     switch (main) {
         case 'View all departments': // View department table
-            db.query('SELECT * FROM department')
+            db.promise().query('SELECT * FROM department')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
         case 'View all roles': // View roles tables
-            db.query('SELECT * FROM roles')
+            db.promise().query('SELECT * FROM roles')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
         case 'View all employees': // View employee table
-            db.query('SELECT * FROM employee')
+            db.promise().query('SELECT * FROM employee')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
         case 'Add a department': // Add department
-            db.query('INSERT INTO department (name) VALUES (?)')
+            db.promise().query('INSERT INTO department (name) VALUES ?')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
         case 'Add a role': // Add role
-            db.query('INSERT INTO roles (title, salary, department_id) VALUES (?)')
+            db.promise().query('INSERT INTO roles (title, salary, department_id) VALUES ?')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
         case 'Add an employee': // Add employee
-            db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)')
+            db.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ?')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
         case 'Update an employee': // Edit employee
-            db.query('UPDATE employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ? WHERE id = ?')
+            db.promise().query('UPDATE employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ? WHERE id = ?')
+            .then(([rows, fields]) => {
+                console.log(rows)
+            })
             break;
     }
 })
