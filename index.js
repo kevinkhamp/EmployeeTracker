@@ -2,6 +2,7 @@
 const express = require('express')
 const mysql = require('mysql2')
 const inquirer = require('inquirer')
+const dept = require('./lib/departments')
 
 // PORT
 const PORT = process.env.PORT || 3001
@@ -11,16 +12,6 @@ const app = express()
 // POST request
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
-
-// Connection to database
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: PORT
-},
-console.log(`Connected to company_db database`)) //Connected to database
 
 inquirer.prompt([
     {
@@ -33,20 +24,21 @@ inquirer.prompt([
 .then((main) => {
     switch (main) {
         case 'View all departments': // View department table
-            app.get('/api/departments', (req, res) => {
-                const sql = `SELECT * FROM departments`;
+        dept.find()
+        //     app.get('/api/departments', (req, res) => {
+        //         const sql = `SELECT * FROM departments`;
 
-                db.query(sql, (err, rows) => {
-                    if (err) {
-                        res.status(500).json({error : err.message})
-                        return
-                    }
-                    res.json({
-                        message: 'success',
-                        data: rows
-                    })
-                })
-            })
+        //         db.query(sql, (err, rows) => {
+        //             if (err) {
+        //                 res.status(500).json({error : err.message})
+        //                 return
+        //             }
+        //             res.json({
+        //                 message: 'success',
+        //                 data: rows
+        //             })
+        //         })
+        //     })
         case 'View all roles': // View roles tables
             app.get('/api/roles', (req, res) => {
                 const sql = `SELECT * FROM roles`;
@@ -79,21 +71,22 @@ inquirer.prompt([
                 })
             })
         case 'Add a department': // Add department
-            app.post('/api/new-department', ({body}, res) => {
-                const sql = `INSERT INTO department (name) VALUES (?)`;
-                const params = [body.name]
+        dept.Create()
+        //     app.post('/api/new-department', ({body}, res) => {
+        //         const sql = `INSERT INTO department (name) VALUES (?)`;
+        //         const params = [body.name]
 
-                db.query(sql, params, (err, result) => {
-                    if (err) {
-                        res.status(400).json({error:err.message})
-                        return
-                    }
-                    res.json({
-                        message: 'success',
-                        data: body
-                    })
-                })
-            })
+        //         db.query(sql, params, (err, result) => {
+        //             if (err) {
+        //                 res.status(400).json({error:err.message})
+        //                 return
+        //             }
+        //             res.json({
+        //                 message: 'success',
+        //                 data: body
+        //             })
+        //         })
+        //     })
         case 'Add a role': // Add role
             app.post('/api/new-role', ({body}, res) => {
                 const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?)`;
@@ -126,8 +119,7 @@ inquirer.prompt([
                     })
                 })
             })
-        default:
-            // Edit employee
+        case 'Update an employee': // Edit employee
              app.put('/api/employees/:id', (req, res) => {
                 const sql = `UPDATE employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ? WHERE id = ?`;
                 const params = [req.body.first_name, req.body.last_name, req.body.role_id, req.body.manager_id, req.body.id]
