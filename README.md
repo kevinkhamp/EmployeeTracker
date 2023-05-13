@@ -5,7 +5,7 @@ This repository contains code for an employee tracker using mySQL and JS includi
 
 ## Visuals
 
-TBA
+![Video](https://youtu.be/cseLlYXALVc)
 
 ## Installation
 
